@@ -7,9 +7,8 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 // Declare the object from its source:
 // var Greeter = require('boilerplate');
 
-// Declare the Main component
-var Main = require('Main');
 // Declare app components here:
+var TodoApp = require('TodoApp');
 
 
 // Load foundation by using
@@ -41,6 +40,6 @@ ReactDOM.render(
   //   <Route path="/" component={Main}>
   //   {/* Add routes to app components here: */}
   // </Router>,
-  <p>Boilerplate 3 Project</p>,
+  <TodoApp/>,
   document.getElementById('app')
 );
