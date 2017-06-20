@@ -6,7 +6,7 @@ var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
 
 // Load the components
-var TodoList = require('TodoApp');
+var TodoList = require('TodoList');
 const Todo = require('Todo');
 
 describe('TodoList', () => {
@@ -29,20 +29,14 @@ describe('TodoList', () => {
     // Find how many we have:
     // This call returns an array of components from the container that have the type.
     var todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
+
+    // todos.forEach(function(item){
+    //   console.log('todos:', item.id, item.text);
+    // });
+    // todosComponents.forEach(function(item){
+    //   console.log('todosComponents:', item.props.id, item.props.text);
+    // });
     expect(todosComponents.length).toBe(todos.length);
   });
 
-  it('should render one Todo component for each todo item', () => {
-    var todos = [{
-      id: 1,
-      text: 'Do something'
-    }, {
-      id: 2,
-      text: 'Check mail'
-    }];
-    var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
-    var todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
-
-    expect(todosComponents.length).toBe(todos.length);
-  });
 });

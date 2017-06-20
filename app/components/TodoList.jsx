@@ -24,6 +24,7 @@ var TodoList = React.createClass({
 
     return (
       <div>
+        {/* Call function to render the list */}
         {renderTodos()}
       </div>
     );
