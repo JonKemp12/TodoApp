@@ -16,8 +16,9 @@ var TodoList = React.createClass({
         // And returns an array.
         // React needs unique key for each item so pull out the id value
         // Use the ... spread operator to pull out all the properties of an object.
+        // Pass down the onToggle handler from parent to Todo components.
         return (
-          <Todo key={todo.id} {...todo}/>
+          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
         );
       });
     };

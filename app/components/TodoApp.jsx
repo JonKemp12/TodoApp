@@ -19,16 +19,20 @@ var TodoApp = React.createClass({
       todos: [
         {
           id: uuid(),
-          text: 'Walk Cookie'
+          text: 'Walk Cookie',
+          completed: false
         }, {
           id: uuid(),
-          text: 'Clean bathrooms'
+          text: 'Clean bathrooms',
+          completed: true
         }, {
           id: uuid(),
-          text: 'Make beds'
+          text: 'Make beds',
+          completed: true
         }, {
           id: uuid(),
-          text: 'Cook supper'
+          text: 'Cook supper',
+          completed: false
         }
       ]
     };
@@ -49,11 +53,30 @@ var TodoApp = React.createClass({
         ...this.state.todos,
         {
           id: uuid(),
-          text: text
+          text: text,
+          completed: false
         }
       ]
     });
   },
+
+  // handler to toggle completed state of a todo
+  // take uuid of the todo
+  handleToggle: function(id) {
+    // alert('handleToggle: '+id);
+    // Use map to return the array of todos
+    // toggle the completed flag if the id matches.
+    // (This seems heavy way to achieve this - might code something
+    //  that looks more sensible.)
+    var updatedTodos = this.state.todos.map( (todo) => {
+      if (todo.id === id) {   // If the ids match
+        todo.completed = !todo.completed; // toggle the flag
+      }
+      return(todo); // Map it back
+    });
+    this.setState({todos: updatedTodos});
+  },
+
 
   render: function() {
     // Get the list of todos:
@@ -62,8 +85,10 @@ var TodoApp = React.createClass({
     return (
       <div>
         {/* Render the search component passing in handler func */}
-        <TodoSearch onSearch={this.handleSearch}/> {/*Render the TodoList, passing in the list as a prop*/}
-        <TodoList todos={todos}/> {/* Render the input form:*/}
+        <TodoSearch onSearch={this.handleSearch}/>
+        {/*Render the TodoList, passing in the list as a prop*/}
+        <TodoList todos={todos} onToggle={this.handleToggle}/>
+        {/* Render the input form:*/}
         <AddTodo onSetAddTodo={this.handleAddTodo}/>
       </div>
     );
