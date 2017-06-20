@@ -4,12 +4,16 @@ var React = require('react');
 // Require children:
 const TodoList = require('TodoList');
 const AddTodo = require('AddTodo');
+const TodoSearch = require('TodoSearch');
 
 // Create functional component with state:
 var TodoApp = React.createClass({
   // Create states:
-  getInitialState: function () {
+  getInitialState: function() {
     return {
+      // State variables for search filters:
+      showCompleted: false,
+      searchText: '',
       // Create some static data for now:
       todos: [
         {
@@ -29,24 +33,30 @@ var TodoApp = React.createClass({
     };
   },
 
-// handler function passed as prop to children to receive an input from form.
-  handleAddTodo: function (text) {
+  // Handle the search input
+  // Simply put the returned values in state variables:
+  handleSearch: function(showCompleted, searchText) {
+    this.setState({showCompleted: showCompleted, searchText: searchText.toLowerCase()});
+  },
+
+  // handler function passed as prop to children to receive an input from form.
+  handleAddTodo: function(text) {
     alert('handleAddTodo: ' + text);
   },
 
-  render: function () {
+  render: function() {
     // Get the list of todos:
     var {todos} = this.state;
 
     return (
       <div>
-        {/*Render the TodoList, passing in the list as a prop*/}
-        <TodoList todos={todos}/>
-        {/* Render the input form:*/}
+        {/* Render the search component passing in handler func */}
+        <TodoSearch onSearch={this.handleSearch}/> {/*Render the TodoList, passing in the list as a prop*/}
+        <TodoList todos={todos}/> {/* Render the input form:*/}
         <AddTodo onSetAddTodo={this.handleAddTodo}/>
       </div>
     );
-  },
+  }
 });
 
 module.exports = TodoApp;
