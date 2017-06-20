@@ -1,5 +1,6 @@
 // TodoApp root container component
 var React = require('react');
+const uuid = require('node-uuid');
 
 // Require children:
 const TodoList = require('TodoList');
@@ -17,16 +18,16 @@ var TodoApp = React.createClass({
       // Create some static data for now:
       todos: [
         {
-          id: 1,
+          id: uuid(),
           text: 'Walk Cookie'
         }, {
-          id: 2,
+          id: uuid(),
           text: 'Clean bathrooms'
         }, {
-          id: 3,
+          id: uuid(),
           text: 'Make beds'
         }, {
-          id: 4,
+          id: uuid(),
           text: 'Cook supper'
         }
       ]
@@ -41,7 +42,17 @@ var TodoApp = React.createClass({
 
   // handler function passed as prop to children to receive an input from form.
   handleAddTodo: function(text) {
-    alert('handleAddTodo: ' + text);
+    //alert('handleAddTodo: ' + text);
+    // Update the state, append a new todo.
+    this.setState({
+      todos: [
+        ...this.state.todos,
+        {
+          id: uuid(),
+          text: text
+        }
+      ]
+    });
   },
 
   render: function() {

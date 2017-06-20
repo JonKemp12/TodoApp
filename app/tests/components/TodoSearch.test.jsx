@@ -34,7 +34,7 @@ describe('TodoSearch', () => {
     var spy = expect.createSpy();
     // Now render the form object in a var and inject the spy into it so we can tell if it is called:
     var todoSearch = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy}/>);
-    // Simulate the change to the input field by ref:
+    // Simulate the change to the checkbox DOM by ref:
     todoSearch.refs.showCompleted.checked = true;
     TestUtils.Simulate.change(todoSearch.refs.showCompleted);
     // Check the spy was called with the expected args: default text is ''.
