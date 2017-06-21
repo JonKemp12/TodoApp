@@ -6,6 +6,7 @@ const uuid = require('node-uuid');
 const TodoList = require('TodoList');
 const AddTodo = require('AddTodo');
 const TodoSearch = require('TodoSearch');
+const TodoAPI = require('TodoAPI');
 
 // Create functional component with state:
 var TodoApp = React.createClass({
@@ -15,26 +16,28 @@ var TodoApp = React.createClass({
       // State variables for search filters:
       showCompleted: false,
       searchText: '',
-      // Create some static data for now:
-      todos: [
-        {
-          id: uuid(),
-          text: 'Walk Cookie',
-          completed: false
-        }, {
-          id: uuid(),
-          text: 'Clean bathrooms',
-          completed: true
-        }, {
-          id: uuid(),
-          text: 'Make beds',
-          completed: true
-        }, {
-          id: uuid(),
-          text: 'Cook supper',
-          completed: false
-        }
-      ]
+      // Load data from persistent store:
+      todos: TodoAPI.getTodos(),
+      // // Create some static data for now:
+      // todos: [
+      //   {
+      //     id: uuid(),
+      //     text: 'Walk Cookie',
+      //     completed: false
+      //   }, {
+      //     id: uuid(),
+      //     text: 'Clean bathrooms',
+      //     completed: true
+      //   }, {
+      //     id: uuid(),
+      //     text: 'Make beds',
+      //     completed: true
+      //   }, {
+      //     id: uuid(),
+      //     text: 'Cook supper',
+      //     completed: false
+      //   }
+      // ]
     };
   },
 
@@ -42,6 +45,12 @@ var TodoApp = React.createClass({
   // Simply put the returned values in state variables:
   handleSearch: function(showCompleted, searchText) {
     this.setState({showCompleted: showCompleted, searchText: searchText.toLowerCase()});
+  },
+
+  // handler called whenever state or props are changed.
+  // Use this to save updated todos
+  componentDidUpdate: function () {
+    TodoAPI.setTodos(this.state.todos);
   },
 
   // handler function passed as prop to children to receive an input from form.
