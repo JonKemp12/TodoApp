@@ -37,4 +37,45 @@ module.exports = {
     //
     return $.isArray(todos) ? todos : [];
   },
+
+  // Filter todo list:
+  filterTodos: function (todos, showCompleted, searchText) {
+    // Get full list
+    var filteredTodos = todos;
+
+    // Filter by showCompleted
+    // Items from array are returned when the return condition is true.
+    // True if (NOT completed or showCompleted is set (=== show anyway)
+    // TODO: I would just NOT run this if showCompleted was true??
+    filteredTodos = filteredTodos.filter((todo) => {
+      return !todo.completed || showCompleted;
+    });
+
+    // Filter by searchText (if set)
+    searchText = searchText.toLowerCase();
+    if (searchText.length > 0) {
+      filteredTodos = filteredTodos.filter((todo) => {
+        //
+        var keepMe = todo.text.toLowerCase().indexOf(searchText);
+        return (keepMe !== -1);
+      });
+    }
+
+    // Sort non-completed first
+    filteredTodos.sort((a, b) => {
+      if (!a.completed && b.completed) {
+        // a is not completes so goes before b
+        return -1;
+      } else if (a.completed && !b.completed) {
+        // a is completed so goes after b
+        return 1;
+      } else {
+        // Same so leave unchanged.
+        return 0;
+      }
+    });
+
+    // return the remains:
+    return filteredTodos;
+  },
 };

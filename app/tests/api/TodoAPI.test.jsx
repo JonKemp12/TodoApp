@@ -42,7 +42,7 @@ describe('TodoAPI', () => {
     });
   });
 
-  describe('TodoAPI', () => {    
+  describe('TodoAPI', () => {
         it('should return empty todos array on bad data', () => {
           // fetch current value
           var actualTodos = TodoAPI.getTodos();
@@ -63,5 +63,57 @@ describe('TodoAPI', () => {
       // assert they are equal:
       expect(actualTodos).toEqual(todos);
     });
+  });
+
+  describe('filterTodos', () => {
+    // Test data:
+    var todos = [{
+        id: 1,
+        text: 'Test todo 123 KeepMe true',
+        completed: true
+      }, {
+        id: 2,
+        text: 'Test todo 123 false',
+        completed: false
+      }, {
+        id: 3,
+        text: 'Test todo 123 keepme true',
+        completed: true
+      },
+    ];
+    var numAllTodos = todos.length;
+    // Count of completed false
+    var numNotCompleted = 1;
+    // Count of text contains keepme (case insensitive)
+    var numKeepMe = 2;
+
+    it('should return all todos when showCompleted is true', () => {
+      var filterTodos = TodoAPI.filterTodos(todos, true, '');
+      expect(filterTodos.length).toBe(numAllTodos);
+    });
+
+    it('should return numNotCompleted todos when showCompleted is false', () => {
+      var filterTodos = TodoAPI.filterTodos(todos, false, '');
+      expect(filterTodos.length).toBe(numNotCompleted);
+    });
+
+    it('should sort by completed status', () => {
+      // Make sure 1st element in test data is true and changes!
+      todos[0].completed = true;
+      var filterTodos = TodoAPI.filterTodos(todos, true, '');
+      // First item in sorted array should be false
+      expect(filterTodos[0].completed).toBe(false);
+    });
+
+    it('should return numKeepMe todos when searchText is KeepMe', () => {
+      var filterTodos = TodoAPI.filterTodos(todos, true, 'KeepMe');
+      expect(filterTodos.length).toBe(numKeepMe);
+    });
+
+    it('should return all todos when searchText is empty', () => {
+      var filterTodos = TodoAPI.filterTodos(todos, true, '');
+      expect(filterTodos.length).toBe(numAllTodos);
+    });
+
   });
 });

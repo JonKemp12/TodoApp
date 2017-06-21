@@ -88,15 +88,17 @@ var TodoApp = React.createClass({
 
 
   render: function() {
-    // Get the list of todos:
-    var {todos} = this.state;
+    // Get the state variables:
+    var {todos, showCompleted, searchText} = this.state;
+    // Filter the list:
+    var filterTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
 
     return (
       <div>
         {/* Render the search component passing in handler func */}
         <TodoSearch onSearch={this.handleSearch}/>
         {/*Render the TodoList, passing in the list as a prop*/}
-        <TodoList todos={todos} onToggle={this.handleToggle}/>
+        <TodoList todos={filterTodos} onToggle={this.handleToggle}/>
         {/* Render the input form:*/}
         <AddTodo onSetAddTodo={this.handleAddTodo}/>
       </div>
