@@ -50,10 +50,28 @@ describe('TodoApp', () => {
     expect(todoApp.state.todos[0].completed).toBe(true);
     // assert that completedAt is a number:
     expect(todoApp.state.todos[0].completedAt).toBeA('number');
-    // Toggle again:
-    todoApp.handleToggle(todoData.id);
-    // Assert that created in now cleared to undefined:
-    expect(todoApp.state.todos[0].completedAt).toNotBeA('object');
+  });
 
+  it('should toggle completed value back to false when handleToggle is called', () => {
+    // test data:
+    var todoData = {
+      id: 7,
+      text: 'Test todo 123',
+      completed: true,
+      createdAt: 99,
+      completedAt: 199,
+    };
+    // Render into a var:
+    var todoApp = TestUtils.renderIntoDocument(<TodoApp/>);
+    // Set initialise the state with test data
+    todoApp.setState({todos: [todoData]});
+    // assert that todo is not completed
+    expect(todoApp.state.todos[0].completed).toBe(true);
+    // Call handleToggle
+    todoApp.handleToggle(todoData.id);
+    // assert state has toggled:
+    expect(todoApp.state.todos[0].completed).toBe(false);
+    // assert that completedAt is a number:
+    expect(todoApp.state.todos[0].completedAt).toNotExist();
   });
 });

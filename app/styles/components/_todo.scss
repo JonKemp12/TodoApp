@@ -1,0 +1,37 @@
+.todo {
+  align-items: center;
+  cursor: pointer;  //hand
+  display: flex;
+  padding: 1rem;
+  // Transition the background colour change over 0.3s slow start & end
+  transition: background .3s ease;
+
+  // style paragraph and input checkbox the same.
+  p, input {
+    margin: 0;
+  }
+
+  // style first child input checkbox
+  > :first-child {
+    margin-right: 1rem;
+  }
+
+  // style when pointer hovers over the item
+  // same as .todo:hover selector
+  &:hover {
+    background-color: $hover-colour;
+  }
+}
+
+.todo__subtext {
+  color: #999;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.todo-completed {
+  p {
+    color: $light-colour;
+    text-decoration: line-through;
+  }
+}

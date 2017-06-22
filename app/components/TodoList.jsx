@@ -11,6 +11,12 @@ var TodoList = React.createClass({
     var {todos} = this.props;
     // Function to render the list:
     var renderTodos = () => {
+      // If list is empty, return a message instead:
+      if (todos.length === 0) {
+        return (
+          <p className="container__message">Nothing left To Do</p>
+        );
+      }
       return todos.map((todo) => {
         // .map calls a function for every element in the array
         // And returns an array.
