@@ -1,6 +1,7 @@
 // TodoApp root container component
 var React = require('react');
 const uuid = require('node-uuid');
+const moment = require('moment');
 
 // Require children:
 const TodoList = require('TodoList');
@@ -63,7 +64,9 @@ var TodoApp = React.createClass({
         {
           id: uuid(),
           text: text,
-          completed: false
+          completed: false,
+          createdAt: moment().unix(),
+          completedAt: undefined,
         }
       ]
     });
@@ -80,6 +83,8 @@ var TodoApp = React.createClass({
     var updatedTodos = this.state.todos.map( (todo) => {
       if (todo.id === id) {   // If the ids match
         todo.completed = !todo.completed; // toggle the flag
+        // Set completedAt time when completed, else undefined.
+        todo.completedAt = todo.completed ? moment().unix() : undefined;
       }
       return(todo); // Map it back
     });
