@@ -32,7 +32,7 @@ export var todosReducer = (state = [], action) => {
         ...state,
         {
           id: uuid(),
-          text: action.text,
+          text: action.todoText,
           completed: false,
           createdAt: moment().unix(),
           completedAt: undefined,

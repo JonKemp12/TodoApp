@@ -9,7 +9,19 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
 // Declare app components here:
 var TodoApp = require('TodoApp');
+// Redux actions
+var actions = require('actions');
+// Redux store
+var store = require('configureStore').configure();
 
+// Try some test actions:
+// Assign a subscriber to state changes (returns the unsubscribe callback):
+var unsubscribe = store.subscribe(() => {
+  console.log('New state: ', store.getState());
+});
+store.dispatch(actions.addTodo('Test one todo'));
+store.dispatch(actions.setSearchText('one'));
+store.dispatch(actions.toggleShowCompleted());
 
 // Load foundation by using
 // style to inject the css from the foundation.min.css
