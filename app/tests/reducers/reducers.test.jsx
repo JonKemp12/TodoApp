@@ -30,4 +30,59 @@ describe('Reducers tests:', () => {
     });
   });
 
+  describe('todosReducer:', () => {
+    it('should add a new todo', () => {
+      var testAction = {
+        type: 'ADD_TODO',
+        text: 'Test text 123'
+      };
+      // Freeze the arg objects using df
+      var res = reducers.todosReducer(df([]), df(testAction));
+      // Should return a single element array
+      expect(res.length).toEqual(1);
+      // with the test text
+      expect(res[0].text).toEqual(testAction.text);
+    });
+
+    // Set up test array, run TOGGLE_TODO and check return.
+    it('should toggle completed value on TOGGLE_TODO', () => {
+      var testAction = {
+        type: 'TOGGLE_TODO',
+        id: '7'
+      };
+      var testTodos = [{
+        id: '7',
+        text: 'Test todo 123',
+        completed: false,
+        createdAt: 99,
+        completedAt: undefined,
+      }];
+      // Call the reducer with test todos array and action
+      var res = reducers.todosReducer(df(testTodos), df(testAction));
+      // assert state has toggled:
+      expect(res[0].completed).toBe(true);
+      // assert that completedAt is a number:
+      expect(res[0].completedAt).toBeA('number');
+    });
+
+    it('should toggle completed back on TOGGLE_TODO', () => {
+      var testAction = {
+        type: 'TOGGLE_TODO',
+        id: '7'
+      };
+      var testTodos = [{
+        id: '7',
+        text: 'Test todo 123',
+        completed: true,
+        createdAt: 99,
+        completedAt: 199,
+      }];
+      // Call the reducer with test todos array and action
+      var res = reducers.todosReducer(df(testTodos), df(testAction));
+      // assert state has toggled:
+      expect(res[0].completed).toBe(false);
+      // assert that completedAt is a number:
+      expect(res[0].completedAt).toNotExist();
+    });
+  });
 });
