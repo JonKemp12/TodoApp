@@ -22,10 +22,10 @@ describe('Actions tests:', () => {
     expect(res).toEqual(testAction);
   });
 
-  it('should create a ADD_TODO action', () => {
+  it('should create an ADD_TODO action', () => {
     var testAction = {
       type: 'ADD_TODO',
-      todoText: 'Test text 123'
+      text: 'Test text 123'
     };
     var res = actions.addTodo('Test text 123');
     expect(res).toEqual(testAction);

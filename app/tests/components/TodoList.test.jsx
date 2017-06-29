@@ -1,13 +1,19 @@
 //Load in libs:
 var React = require('react');
 var ReactDOM = require('react-dom');
+// Load the provider
+var {Provider} = require('react-redux');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
 
 // Load the components
-var TodoList = require('TodoList');
-const Todo = require('Todo');
+import {configure} from 'configureStore';
+// var TodoList = require('TodoList');
+// Using ES6 import to load both versions: connected and raw.
+import ConnectedTodoList, {TodoList} from 'TodoList';
+// const Todo = require('Todo');
+import ConnectedTodo, {Todo} from 'Todo';
 
 describe('TodoList', () => {
   // test to check testing is working:
@@ -19,13 +25,30 @@ describe('TodoList', () => {
     // Make some test data
     var todos = [{
       id: 1,
-      text: 'Item 1'
+      text: 'Item 1',
+      createdAt: 99,
+      completed: false,
+      completedAt: undefined
     }, {
       id: 2,
-      text: 'Item 2'
+      text: 'Item 2',
+      createdAt: 99,
+      completed: true,
+      completedAt: 199
     }];
+    // Create a store with initial state:
+    var store = configure({todos});
+    // Render the provider with store and our connected component:
+    var provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <ConnectedTodoList/>
+      </Provider>
+    );
+
     // Render into TodoList
-    var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
+    // var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
+    // Find the first ConnectedTodoList in the provider
+    var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
     // Find how many we have:
     // This call returns an array of components from the container that have the type.
     var todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
@@ -39,7 +62,7 @@ describe('TodoList', () => {
     expect(todosComponents.length).toBe(todos.length);
   });
 
-  it('should render .message-container if no todos', () => {
+  it('should render empty message if no todos', () => {
     // Make some empty test data
     var todos = [];
     // Render into TodoList

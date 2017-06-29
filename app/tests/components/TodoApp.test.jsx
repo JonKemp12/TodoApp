@@ -1,12 +1,17 @@
 //Load in libs:
 var React = require('react');
 var ReactDOM = require('react-dom');
+var {Provider} = require('react-redux');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
 
-// Load the component
+// Load configureStore and TodoList components with the TodoApp
+var configureStore = require('configureStore');
 var TodoApp = require('TodoApp');
+// var TodoList = require('TodoList');
+// Use import instead
+import TodoList from 'TodoList'
 
 describe('TodoApp', () => {
   // test to check testing is working:
@@ -14,6 +19,22 @@ describe('TodoApp', () => {
     expect(TodoApp).toExist();
   });
 
+  it('should render TodoList', () => {
+    // Create a store, and render the Provider with the app:
+    var store = configureStore.configure();
+    var provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+          <TodoApp/>
+        </Provider>
+    );
+    // Now find the first TodoApp created in the provider:
+    var todoApp = TestUtils.scryRenderedComponentsWithType(provider, TodoApp)[0];
+    // Now find the TodoList(s) in the TodoApp - should be only one!
+    var todoList = TestUtils.scryRenderedComponentsWithType(todoApp, TodoList);
+    // Assert there is exactly one:
+    expect(todoList.length).toEqual(1);
+  });
+/* No longer since using Redux actions - these are tested elsewhere.
   it('should add todo to todos state on handleAddTodo', () => {
     var todoText = 'test text 123';
     // Render an instance:
@@ -52,6 +73,7 @@ describe('TodoApp', () => {
     expect(todoApp.state.todos[0].completedAt).toBeA('number');
   });
 
+
   it('should toggle completed value back to false when handleToggle is called', () => {
     // test data:
     var todoData = {
@@ -74,4 +96,6 @@ describe('TodoApp', () => {
     // assert that completedAt is a number:
     expect(todoApp.state.todos[0].completedAt).toNotExist();
   });
+*/
+
 });

@@ -41,13 +41,13 @@ describe('Reducers tests:', () => {
       // Should return a single element array
       expect(res.length).toEqual(1);
       // with the test text
-      expect(res[0].text).toEqual(testAction.text);
+      expect(res[0].todoText).toEqual(testAction.todoText);
     });
 
     // Set up test array, run TOGGLE_TODO and check return.
-    it('should toggle completed value on TOGGLE_TODO', () => {
+    it('should toggle completed value on TOGGLE_COMPLETED', () => {
       var testAction = {
-        type: 'TOGGLE_TODO',
+        type: 'TOGGLE_COMPLETED',
         id: '7'
       };
       var testTodos = [{
@@ -65,9 +65,9 @@ describe('Reducers tests:', () => {
       expect(res[0].completedAt).toBeA('number');
     });
 
-    it('should toggle completed back on TOGGLE_TODO', () => {
+    it('should toggle completed back on TOGGLE_COMPLETED', () => {
       var testAction = {
-        type: 'TOGGLE_TODO',
+        type: 'TOGGLE_COMPLETED',
         id: '7'
       };
       var testTodos = [{

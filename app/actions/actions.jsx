@@ -16,10 +16,10 @@ export var toggleShowCompleted = () => {
 };
 
 // Add a Todo item:
-export var addTodo = (todoText) => {
+export var addTodo = (text) => {
   return {
     type: 'ADD_TODO',
-    todoText
+    text
   };
 };
 

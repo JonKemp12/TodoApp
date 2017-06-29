@@ -1,6 +1,8 @@
 // For webpack - import the React libs:
 var React = require('react');
 var ReactDOM = require('react-dom');
+// The provider allows to store to be provded to the components children:
+var {Provider} = require('react-redux');
 // Add the router components:
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
@@ -52,6 +54,10 @@ ReactDOM.render(
   //   <Route path="/" component={Main}>
   //   {/* Add routes to app components here: */}
   // </Router>,
-  <TodoApp/>,
+
+  // Render the provider component - now all children will be able to access the store:
+  <Provider store={store}>
+    <TodoApp/>
+  </Provider>,
   document.getElementById('app')
 );

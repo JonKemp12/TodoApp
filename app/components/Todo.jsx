@@ -1,11 +1,16 @@
 // Todo container component
 var React = require('react');
 const moment = require('moment');
+// Load Redux-React connect functional
+var {connect} = require('react-redux');
+// Redux actions
+var actions = require('actions');
 
 // Create functional component with state:
-var Todo = React.createClass({
+// Export the raw version for testing only
+export var Todo = React.createClass({
   render: function() {
-    var {id, text, completed, createdAt, completedAt} = this.props;
+    var {id, text, completed, createdAt, completedAt, dispatch} = this.props;
     // var to change class/style depending on status
     var todoClassName = completed ? 'todo todo-completed' : 'todo'
     // Func to render dates
@@ -25,7 +30,8 @@ var Todo = React.createClass({
     //  if it is clicked at all (this will switch the completed state)
     return (
       <div className={todoClassName} onClick={() => {
-          this.props.onToggle(id);
+          //this.props.onToggle(id);
+          dispatch(actions.toggleCompleted(id));
         }}>
         <div>
           <input type="checkbox" checked={completed} readOnly/>
@@ -39,4 +45,7 @@ var Todo = React.createClass({
   },
 });
 
-module.exports = Todo;
+// module.exports = Todo;
+// Connect Todo to store to pickup dispatch Function
+// export the connected version as the default to those that require it!
+export default connect()(Todo);

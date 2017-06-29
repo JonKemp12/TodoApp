@@ -4,8 +4,11 @@ const uuid = require('node-uuid');
 const moment = require('moment');
 
 // Require children:
-const TodoList = require('TodoList');
-const AddTodo = require('AddTodo');
+// const TodoList = require('TodoList');
+// Use import instead
+import TodoList from 'TodoList';
+// const AddTodo = require('AddTodo');
+import AddTodo from 'AddTodo';
 const TodoSearch = require('TodoSearch');
 const TodoAPI = require('TodoAPI');
 
@@ -72,6 +75,7 @@ var TodoApp = React.createClass({
     });
   },
 
+/* NOTE: NOT needed as Redux allow Todo to dispatch this directly
   // handler to toggle completed state of a todo
   // take uuid of the todo
   handleToggle: function(id) {
@@ -90,7 +94,7 @@ var TodoApp = React.createClass({
     });
     this.setState({todos: updatedTodos});
   },
-
+*/
 
   render: function() {
     // Get the state variables:
@@ -107,8 +111,10 @@ var TodoApp = React.createClass({
             <div className="container">
               {/* Render the search component passing in handler func */}
               <TodoSearch onSearch={this.handleSearch}/>
-              {/*Render the TodoList, passing in the list as a prop*/}
-              <TodoList todos={filteredTodos} onToggle={this.handleToggle}/>
+              {/* Render the TodoList, passing in the list as a prop
+                <TodoList todos={filteredTodos} onToggle={this.handleToggle}/> */}
+              {/*With Redux this is simplified*/}
+              <TodoList/>
               {/* Render the input form:*/}
               <AddTodo onSetAddTodo={this.handleAddTodo}/>
             </div>

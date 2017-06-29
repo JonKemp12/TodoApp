@@ -1,11 +1,16 @@
 // TodoList container component
 var React = require('react');
 
+// Load Redux-React connect functional
+var {connect} = require('react-redux');
+
 // Require Todo
-const Todo = require('Todo');
+// const Todo = require('Todo');
+import Todo from 'Todo';
 
 // Create functional component with state:
-var TodoList = React.createClass({
+// Export the raw object for testing
+export var TodoList = React.createClass({
   render: function () {
     // Get the list prop:
     var {todos} = this.props;
@@ -24,7 +29,9 @@ var TodoList = React.createClass({
         // Use the ... spread operator to pull out all the properties of an object.
         // Pass down the onToggle handler from parent to Todo components.
         return (
-          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
+          // Don't need to pass onToggle handler with redux store
+          //    <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/> */}
+          <Todo key={todo.id} {...todo}/>
         );
       });
     };
@@ -38,4 +45,15 @@ var TodoList = React.createClass({
   },
 });
 
-module.exports = TodoList;
+// module.exports = TodoList;
+// REDUX: now use connect() to connect require state objects to this components properties
+// Export the default to be picked up by require().
+export default connect (
+  // Takes a function, passing in state and returns the reqired state variables
+  // and makes them available as properties to this component
+  (state) => {
+    return {
+      todos: state.todos
+    }
+  }
+)(TodoList);

@@ -32,14 +32,14 @@ export var todosReducer = (state = [], action) => {
         ...state,
         {
           id: uuid(),
-          text: action.todoText,
+          text: action.text,
           completed: false,
           createdAt: moment().unix(),
           completedAt: undefined,
         }
       ];
       break;
-    case 'TOGGLE_TODO':
+    case 'TOGGLE_COMPLETED':
       // map through todos, toggle completed and updated
       // Use map to return the array of todos
       // toggle the completed flag if the id matches.
