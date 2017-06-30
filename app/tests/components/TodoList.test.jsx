@@ -33,8 +33,8 @@ describe('TodoList', () => {
       id: 2,
       text: 'Item 2',
       createdAt: 99,
-      completed: true,
-      completedAt: 199
+      completed: false,
+      completedAt: undefined
     }];
     // Create a store with initial state:
     var store = configure({todos});
@@ -65,8 +65,19 @@ describe('TodoList', () => {
   it('should render empty message if no todos', () => {
     // Make some empty test data
     var todos = [];
+    // Create a store with initial state:
+    var store = configure({todos});
+    // Render the provider with store and our connected component:
+    var provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <ConnectedTodoList/>
+      </Provider>
+    );
+
     // Render into TodoList
-    var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
+    // var todoList = TestUtils.renderIntoDocument(<TodoList/>);
+    // Find the first ConnectedTodoList in the provider
+    var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
     // find the DOM node
     var $el = $(ReactDOM.findDOMNode(todoList));
     // Check there is 1 message there:

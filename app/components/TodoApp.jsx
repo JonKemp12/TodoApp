@@ -9,8 +9,10 @@ const moment = require('moment');
 import TodoList from 'TodoList';
 // const AddTodo = require('AddTodo');
 import AddTodo from 'AddTodo';
-const TodoSearch = require('TodoSearch');
-const TodoAPI = require('TodoAPI');
+// const TodoSearch = require('TodoSearch');
+import TodoSearch from 'TodoSearch';
+// const TodoAPI = require('TodoAPI');
+import TodoAPI from 'TodoAPI';
 
 // Create functional component with state:
 var TodoApp = React.createClass({
@@ -109,8 +111,9 @@ var TodoApp = React.createClass({
           <div className="column small-centered small-11 medium-6 large-5">
             {/*custom class*/}
             <div className="container">
-              {/* Render the search component passing in handler func */}
-              <TodoSearch onSearch={this.handleSearch}/>
+              {/* Render the search component passing in handler func
+                <TodoSearch onSearch={this.handleSearch}/> */}
+              <TodoSearch/>
               {/* Render the TodoList, passing in the list as a prop
                 <TodoList todos={filteredTodos} onToggle={this.handleToggle}/> */}
               {/*With Redux this is simplified*/}

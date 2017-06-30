@@ -21,9 +21,9 @@ var store = require('configureStore').configure();
 var unsubscribe = store.subscribe(() => {
   console.log('New state: ', store.getState());
 });
-store.dispatch(actions.addTodo('Test one todo'));
-store.dispatch(actions.setSearchText('one'));
-store.dispatch(actions.toggleShowCompleted());
+// store.dispatch(actions.addTodo('Test one todo'));
+// store.dispatch(actions.setSearchText('one'));
+// store.dispatch(actions.toggleShowCompleted());
 
 // Load foundation by using
 // style to inject the css from the foundation.min.css
