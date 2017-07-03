@@ -39,6 +39,13 @@ export var todosReducer = (state = [], action) => {
         }
       ];
       break;
+    case 'ADD_TODOS':
+      // Return the existing todos and append new list:
+      return [
+        ...state,
+        ...action.todos
+      ];
+      break;
     case 'TOGGLE_COMPLETED':
       // map through todos, toggle completed and updated
       // Use map to return the array of todos

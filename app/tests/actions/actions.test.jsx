@@ -31,6 +31,29 @@ describe('Actions tests:', () => {
     expect(res).toEqual(testAction);
   });
 
+  it('should create an ADD_TODOS action', () => {
+    // Make some test data
+    var todos = [{
+      id: 1,
+      text: 'Item 1',
+      createdAt: 99,
+      completed: false,
+      completedAt: undefined
+    }, {
+      id: 2,
+      text: 'Item 2',
+      createdAt: 99,
+      completed: false,
+      completedAt: undefined
+    }];
+    var testAction = {
+      type: 'ADD_TODOS',
+      todos: todos
+    };
+    var res = actions.addTodos(todos);
+    expect(res).toEqual(testAction);
+  });
+
   it('should create a TOGGLE_COMPLETED action', () => {
     var testAction = {
       type: 'TOGGLE_COMPLETED',

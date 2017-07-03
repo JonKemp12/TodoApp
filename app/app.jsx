@@ -15,12 +15,27 @@ var TodoApp = require('TodoApp');
 var actions = require('actions');
 // Redux store
 var store = require('configureStore').configure();
+//
+import TodoAPI from 'TodoAPI';
+
 
 // Try some test actions:
 // Assign a subscriber to state changes (returns the unsubscribe callback):
 var unsubscribe = store.subscribe(() => {
-  console.log('New state: ', store.getState());
+  // get the new state
+  var state = store.getState();
+  console.log('New state: ', state);
+  // Update the localStorage with current list from the state:
+  TodoAPI.setTodos(state.todos);
 });
+
+// Need to initialise the state todos from localStorage on start up.
+// Dispatch an action to bulk load them:
+var initialTodos = TodoAPI.getTodos();
+store.dispatch(actions.addTodos(initialTodos));
+
+
+
 // store.dispatch(actions.addTodo('Test one todo'));
 // store.dispatch(actions.setSearchText('one'));
 // store.dispatch(actions.toggleShowCompleted());

@@ -44,6 +44,31 @@ describe('Reducers tests:', () => {
       expect(res[0].todoText).toEqual(testAction.todoText);
     });
 
+    it('should add a new todos array', () => {
+      // Make some test data
+      var todos = [{
+        id: 1,
+        text: 'Item 1',
+        createdAt: 99,
+        completed: false,
+        completedAt: undefined
+      }, {
+        id: 2,
+        text: 'Item 2',
+        createdAt: 99,
+        completed: false,
+        completedAt: undefined
+      }];
+      var testAction = {
+        type: 'ADD_TODOS',
+        todos: todos
+      };
+      // Freeze the arg objects using df
+      var res = reducers.todosReducer(df([]), df(testAction));
+      // with the test text
+      expect(res).toEqual(todos);
+    });
+
     // Set up test array, run TOGGLE_TODO and check return.
     it('should toggle completed value on TOGGLE_COMPLETED', () => {
       var testAction = {

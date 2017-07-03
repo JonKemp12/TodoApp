@@ -12,10 +12,12 @@ import AddTodo from 'AddTodo';
 // const TodoSearch = require('TodoSearch');
 import TodoSearch from 'TodoSearch';
 // const TodoAPI = require('TodoAPI');
-import TodoAPI from 'TodoAPI';
+// import TodoAPI from 'TodoAPI';
 
 // Create functional component with state:
 var TodoApp = React.createClass({
+  /* Don't need handlers or state as functionality pushed down to componenets
+  ** now they can access the Redux store.
   // Create states:
   getInitialState: function() {
     return {
@@ -77,7 +79,7 @@ var TodoApp = React.createClass({
     });
   },
 
-/* NOTE: NOT needed as Redux allow Todo to dispatch this directly
+// NOTE: NOT needed as Redux allow Todo to dispatch this directly
   // handler to toggle completed state of a todo
   // take uuid of the todo
   handleToggle: function(id) {
@@ -100,9 +102,9 @@ var TodoApp = React.createClass({
 
   render: function() {
     // Get the state variables:
-    var {todos, showCompleted, searchText} = this.state;
+    // var {todos, showCompleted, searchText} = this.state;
     // Filter the list:
-    var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
+    // var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
 
     return (
       <div>
@@ -118,8 +120,9 @@ var TodoApp = React.createClass({
                 <TodoList todos={filteredTodos} onToggle={this.handleToggle}/> */}
               {/*With Redux this is simplified*/}
               <TodoList/>
-              {/* Render the input form:*/}
-              <AddTodo onSetAddTodo={this.handleAddTodo}/>
+              {/* Render the input form:
+                <AddTodo onSetAddTodo={this.handleAddTodo}/>*/}
+              <AddTodo/>
             </div>
           </div>
         </div>

@@ -23,6 +23,15 @@ export var addTodo = (text) => {
   };
 };
 
+// Add a Todos array:
+export var addTodos = (todos) => {
+  return {
+    type: 'ADD_TODOS',
+    todos
+  };
+};
+
+
 // Toggle completed on a todo by id
 export var toggleCompleted = (id) => {
   return {
