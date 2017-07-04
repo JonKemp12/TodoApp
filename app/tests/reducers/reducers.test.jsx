@@ -76,6 +76,35 @@ describe('Reducers tests:', () => {
       expect(res).toEqual(todos);
     });
 
+    // Set up test array, run UPDATE_TODO and check return.
+    it('should update Todo on UPDATE_TODO action', () => {
+      var testTodos = [{
+        id: '7',
+        text: 'Test todo 123',
+        completed: true,
+        createdAt: 99,
+        completedAt: 199,
+      }];
+      var updates = {
+        completed: false,
+        completedAt: null
+      };
+      var testAction = {
+        type: 'UPDATE_TODO',
+        id: testTodos[0].id,
+        updates
+      };
+
+      // Call the reducer with test todos array and action
+      var res = reducers.todosReducer(df(testTodos), df(testAction));
+      // assert state has been updated:
+      expect(res[0].completed).toBe(updates.completed);
+      // assert that completedAt is correctly updated:
+      expect(res[0].completedAt).toEqual(updates.completedAt);
+      // Assert the text remains the same
+      expect(res[0].text).toEqual(testTodos[0].text);
+    });
+/*
     // Set up test array, run TOGGLE_TODO and check return.
     it('should toggle completed value on TOGGLE_COMPLETED', () => {
       var testAction = {
@@ -96,7 +125,7 @@ describe('Reducers tests:', () => {
       // assert that completedAt is a number:
       expect(res[0].completedAt).toBeA('number');
     });
-
+/*
     it('should toggle completed back on TOGGLE_COMPLETED', () => {
       var testAction = {
         type: 'TOGGLE_COMPLETED',
@@ -116,5 +145,6 @@ describe('Reducers tests:', () => {
       // assert that completedAt is a number:
       expect(res[0].completedAt).toNotExist();
     });
+*/
   });
 });

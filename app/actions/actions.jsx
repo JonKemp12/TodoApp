@@ -73,11 +73,41 @@ export var addTodos = (todos) => {
   };
 };
 
-
+/*
 // Toggle completed on a todo by id
 export var toggleCompleted = (id) => {
   return {
     type: 'TOGGLE_COMPLETED',
     id
+  };
+};
+*/
+
+// Apply updated props to a Todo:
+export var updateTodo = (id, updates) => {
+  return {
+    type: 'UPDATE_TODO',
+    id,
+    updates
+  };
+};
+
+// Toggle completed flag on a Firebase todo.
+// For this, we will pass in the id and the value (so not exactly toggle!?)
+export var startToggleCompleted = (id, completed) => {
+  // Return the function to make the asyn calls
+  return (dispatch, getState) => {
+    var todoRef = firebaseRef.child(`todos/${id}`); // ('todos/'+id)
+    // properties to be updated:
+    var updates = {
+      completed,
+      // Set or clear completedAt dependant on completed flag.
+      completedAt: completed ? moment().unix() : null
+    };
+    // Return the result for testing
+    return todoRef.update(updates).then(() => {
+      // On success, call sync dispatch generically updating
+      dispatch(updateTodo(id, updates));
+    })
   };
 };

@@ -48,6 +48,8 @@ export var todosReducer = (state = [], action) => {
         ...action.todos
       ];
       break;
+
+    /* Changed to update todo:
     case 'TOGGLE_COMPLETED':
       // map through todos, toggle completed and updated
       // Use map to return the array of todos
@@ -56,11 +58,11 @@ export var todosReducer = (state = [], action) => {
       //  that looks more sensible.)
       var updatedTodos = state.map( (todo) => {
         if (todo.id === action.id) {   // If the ids match
-          /*
-          todo.completed = !todo.completed; // toggle the flag
+
+          // todo.completed = !todo.completed; // toggle the flag
           // Set completedAt time when completed, else undefined.
-          todo.completedAt = todo.completed ? moment().unix() : undefined;
-          */
+          // todo.completedAt = todo.completed ? moment().unix() : undefined;
+
           var newCompleted = !todo.completed; // Toggle completed flag
           // For pure func, need to return a new todo object using spread:
           //console.log('todo: ', todo, todo.completed);
@@ -74,6 +76,21 @@ export var todosReducer = (state = [], action) => {
       });
       //console.log('updatedTodos: ', updatedTodos);
       return updatedTodos;
+      break;
+      */
+    case 'UPDATE_TODO':
+    // Return the array of todos with 'id' updated.
+    return state.map( (todo) => {
+      if (todo.id === action.id) {   // If the ids match
+        return {
+          ...todo, // original props
+          ...action.updates // Over written with updates
+        };
+      } else {
+        // No match so skip
+        return(todo); // Map it back
+      };
+    });
       break;
     default:
       return state;

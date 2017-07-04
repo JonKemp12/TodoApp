@@ -3,6 +3,8 @@ var expect = require('expect');
 // Get mock store and thunk for testing
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+// import our firebase config
+import firebase, {firebaseRef} from 'app/firebase/';
 
 // Load the actions:
 var actions = require('actions');
@@ -75,7 +77,7 @@ describe('Actions tests:', () => {
     const todoText = 'Item 1';
 
     // dispatch it to our store, 'then' wait until it is complete:
-    store.dispatch(actions.startAddTodo(todoText)).then(() => {
+    store.dispatch(actions.startAddTodo(todoText)).then((res) => {
       // Success here:
       // Fetch all the actions dispatched to this store.
       const actions = store.getActions();
@@ -90,8 +92,26 @@ describe('Actions tests:', () => {
       done();   // Mark the test as done without error.
     // On failure, catch the error and call done()
   }).catch(done());
+    /*
+    , (err) => {
+      // On failure, catch the error and call done()
+      // Apparently you can do this with a .then().catch(done())
+      done(err);
+    });
+    */
   });
 
+  it('should create a UPDATE_TODO action', () => {
+    var testAction = {
+      type: 'UPDATE_TODO',
+      id: 'TestID',
+      updates: {completed: false}
+    };
+    var res = actions.updateTodo(testAction.id, testAction.updates);
+    expect(res).toEqual(testAction);
+  });
+
+/*
   it('should create a TOGGLE_COMPLETED action', () => {
     var testAction = {
       type: 'TOGGLE_COMPLETED',
@@ -99,5 +119,58 @@ describe('Actions tests:', () => {
     };
     var res = actions.toggleCompleted('TestId');
     expect(res).toEqual(testAction);
+  });
+*/
+
+  // Unit tests for firebase access:
+  describe('Firebase tests:', () => {
+    // Cretae a FB ref:
+    var testTodoRef;
+    var testTodo = {
+        text: 'Test Todo 123',
+        completed: false,
+        createdAt: 99,
+    };
+
+    // Use mocha beforeEach to declare a function to run before each test:
+    beforeEach((done) => {
+      // Get a FB ref to a new todo:
+      testTodoRef = firebaseRef.child('todos').push();
+      // Set some data on the ref:
+      testTodoRef.set(testTodo).then(() => {
+        // when finished:
+        done();
+      });
+    });
+    // Use afterEach to declare func to run after each test completes.
+    afterEach((done) => {
+      // remove the test item:
+      testTodoRef.remove().then(() => done());  // Short form for simple success.
+    });
+
+    // Tests:
+    it('should dispatch UPDATE_TODO action and toggle completed flag', (done) => {
+      // Creat an empty mock store
+      const store = creatMockStore({});
+      const action = actions.startAddTodo(testTodoRef.key, !testTodo.completed);
+
+      store.dispatch(action).then(() => {
+        // Retrieve actions on out store:
+        const mockActions = store.getActions();
+        // Assert first action is UPDATE_TODO on the key
+        expect(mockActions[0]).toInclude({
+          type: 'UPDATE_TODO',
+          id: testTodoRef.key,
+        });
+        // Expect updates to have correct completedAt
+        expect(mockActions[0].updates).toInclude({
+          completed: !testTodo.completed
+        });
+        // Assert that completedAt is now set
+        expect(mockActions[0].updates.completedAt).toExist();
+        // Mark finished
+        done();
+      }, done());
+    });
   });
 });
