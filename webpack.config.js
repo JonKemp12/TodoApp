@@ -31,6 +31,7 @@ module.exports = {
       './app/store',
     ],
     alias: {
+      app: 'app', // All files under app?
       // Main: 'app/components/Main.jsx',
       applicationStyles: 'app/styles/app.scss',
       // actions: 'app/actions/actions.jsx',

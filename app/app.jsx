@@ -15,9 +15,11 @@ var TodoApp = require('TodoApp');
 var actions = require('actions');
 // Redux store
 var store = require('configureStore').configure();
-//
-import TodoAPI from 'TodoAPI';
+// import the API code:
+import TodoAPI from 'app/api/TodoAPI.jsx';
 
+// Run firebase test code:
+// import './../playground/firebase/index';
 
 // Try some test actions:
 // Assign a subscriber to state changes (returns the unsubscribe callback):

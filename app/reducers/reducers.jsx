@@ -30,13 +30,15 @@ export var todosReducer = (state = [], action) => {
     case 'ADD_TODO':
       return [
         ...state,
-        {
-          id: uuid(),
-          text: action.text,
-          completed: false,
-          createdAt: moment().unix(),
-          completedAt: undefined,
-        }
+        // Put todo creation in action file instead
+        action.todo
+        // {
+        //   id: uuid(),
+        //   text: action.text,
+        //   completed: false,
+        //   createdAt: moment().unix(),
+        //   completedAt: undefined,
+        // }
       ];
       break;
     case 'ADD_TODOS':

@@ -25,7 +25,9 @@ export var AddTodo = React.createClass({
       // Call the parent function;
       // this.props.onSetAddTodo(todoText);
       // Using dispatch in Redux instead
-      dispatch(actions.addTodo(todoText));
+      // dispatch(actions.addTodo(todoText));
+      // For firebase, use startAddTodo
+      dispatch(actions.startAddTodo(todoText));
     } else {
       // Re-focus back to imput field:
       this.refs.todoText.focus();

@@ -34,14 +34,21 @@ describe('Reducers tests:', () => {
     it('should add a new todo', () => {
       var testAction = {
         type: 'ADD_TODO',
-        text: 'Test text 123'
+        todo: {
+          id: 1,
+          text: 'Item 1',
+          createdAt: 99,
+          completed: false,
+        }
       };
       // Freeze the arg objects using df
       var res = reducers.todosReducer(df([]), df(testAction));
       // Should return a single element array
       expect(res.length).toEqual(1);
       // with the test text
-      expect(res[0].todoText).toEqual(testAction.todoText);
+      // expect(res[0].todoText).toEqual(testAction.todoText);
+      // Assert the todo is returned as first element of returned array:
+      expect(res[0]).toEqual(testAction.todo);
     });
 
     it('should add a new todos array', () => {

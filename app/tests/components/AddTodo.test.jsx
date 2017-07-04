@@ -4,6 +4,8 @@ var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
 
+// Load all the actions:
+import * as actions from 'actions';
 // Load the component
 var {AddTodo} = require('AddTodo');
 
@@ -15,10 +17,11 @@ describe('AddTodo', () => {
   it('should dispatch ADD_TODO if valid todo text value', () => {
     // Test data:
     var todoText = 'Test todo 123';
-    var testAction = {
-      type: 'ADD_TODO',
-      text: todoText
-    }
+    // var testAction = {
+    //   type: 'ADD_TODO',
+    //   text: todoText
+    // }
+    var testAction = actions.startAddTodo(todoText);
     // create a spy function:
     var spy = expect.createSpy();
     // Now render the form object in a var and inject the spy into it so we can tell if it is called:
