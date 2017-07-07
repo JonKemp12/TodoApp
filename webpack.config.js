@@ -15,6 +15,7 @@ module.exports = {
     jquery: 'jQuery'
   },
   plugins: [
+    new webpack.EnvironmentPlugin(['NODE_ENV']),
     new webpack.ProvidePlugin({
       '$': 'jquery',
       'jQuery': 'jquery'
