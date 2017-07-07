@@ -134,13 +134,21 @@ describe('Actions tests:', () => {
 
     // Use mocha beforeEach to declare a function to run before each test:
     beforeEach((done) => {
-      // Get a FB ref to a new todo:
-      testTodoRef = firebaseRef.child('todos').push();
-      // Set some data on the ref:
-      testTodoRef.set(testTodo).then(() => {
-        // when finished:
-        done();
-      });
+      // Get a FB ref to the todos list:
+      var testTodosRef = firebaseRef.child('todos');
+
+      // Reset the list:
+      testTodosRef.remove().then(() => {
+        // Once clear has returned, add our test data:
+        // make a ref to the todo:
+        testTodoRef = firebaseRef.child('todos').push();
+        // Set the test data and return:
+        return testTodoRef.set(testTodo);
+      })
+      // After set, call done() to finish
+      .then(() => done())
+      // Catch error and pass them into done.
+      .catch(done);
     });
     // Use afterEach to declare func to run after each test completes.
     afterEach((done) => {
@@ -168,6 +176,26 @@ describe('Actions tests:', () => {
         });
         // Assert that completedAt is now set
         expect(mockActions[0].updates.completedAt).toExist();
+        // Mark finished
+        done();
+      }, done());
+    });
+
+    it('should dispatch ADD_TODOS action, create single to with correct test data:', (done) => {
+      // Creat an empty mock store
+      const store = creatMockStore({});
+      // The action to call:
+      const action = actions.startAddTodos();
+
+      store.dispatch(action).then(() => {
+        // Retrieve actions on our store:
+        const mockActions = store.getActions();
+        // Assert first action is UPDATE_TODO on the key
+        expect(mockActions[0].type).toEqual('ADD_TODOS');
+        // Expect action to have loaded 1 todo.
+        expect(mockActions[0].todos.length).toEqual(1);
+        // Assert that completedAt is now set
+        expect(mockActions[0].todos[0].text).toEqual(testTodo.text);
         // Mark finished
         done();
       }, done());

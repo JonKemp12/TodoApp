@@ -21,6 +21,7 @@ import TodoAPI from 'app/api/TodoAPI.jsx';
 // Run firebase test code:
 // import './../playground/firebase/index';
 
+/*** Move init to firebase
 // Try some test actions:
 // Assign a subscriber to state changes (returns the unsubscribe callback):
 var unsubscribe = store.subscribe(() => {
@@ -35,6 +36,10 @@ var unsubscribe = store.subscribe(() => {
 // Dispatch an action to bulk load them:
 var initialTodos = TodoAPI.getTodos();
 store.dispatch(actions.addTodos(initialTodos));
+****/
+
+// initialise todos from firebase
+store.dispatch(actions.startAddTodos());
 
 
 

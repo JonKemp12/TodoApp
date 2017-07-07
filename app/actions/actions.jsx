@@ -73,6 +73,41 @@ export var addTodos = (todos) => {
   };
 };
 
+// Challenge to fetch todos from Firebase and convert to an array.
+// To use Firebase, need to NOT return an object, but return a function
+// which makes the async call to firebase.
+// We fetch the data from Firebase, "then" when that is finished we dispatch the action
+// to the store to add the array addTodos().
+export var startAddTodos = () => {
+  // Returns a function which take 2 args:
+  // dispatch: the function that will be called after the data is saved
+  // getState: the function to call to get the state of a store
+  return (dispatch, getState) => {
+    // Get ref to todos snapshot
+    var todosRef = firebaseRef.child('todos').once('value');
+    // return the promise
+    return todosRef.then((snapshot) => {
+      console.log('Got child key: ', snapshot.key, snapshot.val());
+      // Think this will turn DB key:object pairs into an array
+      // var todos = Object.keys(snapshot.val());
+      // Not sure why to use keys, can simply forEach over the items:
+      var todos = [];
+      snapshot.forEach(item => {
+        todos.push({
+          id: item.key,
+          ...item.val()
+        });
+      });
+      // console.log('todos[]:', todos);
+      // Dispatch to the store:
+      dispatch(addTodos(todos));
+    }, (err) => {
+      console.log('once(value) failed:', err);
+    });
+  };
+};
+
+
 /*
 // Toggle completed on a todo by id
 export var toggleCompleted = (id) => {

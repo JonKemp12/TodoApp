@@ -5,6 +5,7 @@
 const $ = require('jquery');
 
 module.exports = {
+/**** localStorage is replaced by Firebase
   // Func to store the todos array
   setTodos: function (todos) {
     // Check we have been passed an array:
@@ -37,6 +38,7 @@ module.exports = {
     //
     return $.isArray(todos) ? todos : [];
   },
+*****/
 
   // Filter todo list:
   filterTodos: function (todos, showCompleted, searchText) {

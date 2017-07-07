@@ -4,13 +4,13 @@ var expect = require('expect');
 // Load the component
 var TodoAPI = require('TodoAPI');
 
-describe('TodoAPI', () => {
+describe('TodoAPI:', () => {
   // test to check testing is working:
   it('should exist', () => {
     expect(TodoAPI).toExist();
   });
-
-  describe('TodoAPI', () => {
+/***** localStorage replaced by Firebase
+  describe('TodoAPI setTodos:', () => {
 
     // Itialise local store before running each describe test:
     beforeEach(() => {
@@ -42,7 +42,7 @@ describe('TodoAPI', () => {
     });
   });
 
-  describe('TodoAPI', () => {
+  describe('TodoAPI, getTodos:', () => {
         it('should return empty todos array on bad data', () => {
           // fetch current value
           var actualTodos = TodoAPI.getTodos();
@@ -64,6 +64,7 @@ describe('TodoAPI', () => {
       expect(actualTodos).toEqual(todos);
     });
   });
+*****/
 
   describe('filterTodos', () => {
     // Test data:
