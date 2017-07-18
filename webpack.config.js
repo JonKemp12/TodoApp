@@ -1,9 +1,17 @@
 var webpack = require('webpack');
 var path = require('path');
+var envFile = require('node-env-file');
 
 // Get node environment for production or dev:
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+// Try to load env file:
+try {
+  envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
+} catch (e) {
+  // Failed to load - must be production so ignore error
+}
+// console.log('process.env:', process.env);
 
 module.exports = {
   entry: [
@@ -15,7 +23,7 @@ module.exports = {
     jquery: 'jQuery'
   },
   plugins: [
-    new webpack.EnvironmentPlugin(['NODE_ENV']),
+    // new webpack.EnvironmentPlugin(['NODE_ENV']),
     new webpack.ProvidePlugin({
       '$': 'jquery',
       'jQuery': 'jquery'
@@ -24,6 +32,16 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false
+      }
+    }),
+    // Set environment variables from files as strings:
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_DEV: JSON.stringify(process.env.NODE_DEV),
+        API_KEY: JSON.stringify(process.env.API_KEY),
+        AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
+        DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
+        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
       }
     })
   ],

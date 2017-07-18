@@ -2,15 +2,14 @@ import firebase from 'firebase';
 
 // Use a try to Initialize the firebase once.
 try {
-  // Initialize Firebase
+  // Initialize Firebase using environment vars from files
   var config = {
-    apiKey: "AIzaSyBgrzRv-iF9B2J74oH5EyhJ77VMTrIekFY",
-    authDomain: "jons-todo-app.firebaseapp.com",
-    databaseURL: "https://jons-todo-app.firebaseio.com",
-    projectId: "jons-todo-app",
-    storageBucket: "jons-todo-app.appspot.com",
-    messagingSenderId: "697045583773"
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET,
   };
+  // debugger;
   firebase.initializeApp(config);
 } catch (e) {
 
