@@ -1,7 +1,6 @@
-// TodoApp root container component
-var React = require('react');
-const uuid = require('node-uuid');
-const moment = require('moment');
+// TodoApp container component
+import React from 'react';
+import * as Redux from 'react-redux';
 
 // Require children:
 // const TodoList = require('TodoList');
@@ -13,6 +12,8 @@ import AddTodo from 'AddTodo';
 import TodoSearch from 'TodoSearch';
 // const TodoAPI = require('TodoAPI');
 // import TodoAPI from 'TodoAPI';
+import * as actions from 'actions';
+
 
 // Create functional component with state:
 var TodoApp = React.createClass({
@@ -99,8 +100,17 @@ var TodoApp = React.createClass({
     this.setState({todos: updatedTodos});
   },
 */
+  // Logout handler using ES5 shortform:
+  onLogout(e) {
+    // Redux provides the actions as props.
+    var {dispatch} = this.props;
+    // Prevent a regresh:
+    e.preventDefault();
+    // Kick off the login action
+    dispatch(actions.startLogout());
+  },
 
-  render: function() {
+  render() {
     // Get the state variables:
     // var {todos, showCompleted, searchText} = this.state;
     // Filter the list:
@@ -108,6 +118,10 @@ var TodoApp = React.createClass({
 
     return (
       <div>
+        <div className="page-actions">
+          <a href="#"onClick={this.onLogout}>Logout</a>
+        </div>
+
         <h1 className="page-title">Jon's Todo App</h1>
         <div className="row">
           <div className="column small-centered small-11 medium-6 large-5">
@@ -131,4 +145,4 @@ var TodoApp = React.createClass({
   }
 });
 
-module.exports = TodoApp;
+export default Redux.connect()(TodoApp);

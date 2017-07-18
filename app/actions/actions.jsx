@@ -1,5 +1,5 @@
 // import the firebase config index.js:
-import {firebase, firebaseRef} from 'app/firebase/'
+import firebase, {firebaseRef, githubProvider} from 'app/firebase/'
 // Need moment for times:
 import moment from 'moment';
 
@@ -87,7 +87,7 @@ export var startAddTodos = () => {
     var todosRef = firebaseRef.child('todos').once('value');
     // return the promise
     return todosRef.then((snapshot) => {
-      console.log('Got child key: ', snapshot.key, snapshot.val());
+      // console.log('Got child key: ', snapshot.key, snapshot.val());
       // Think this will turn DB key:object pairs into an array
       // var todos = Object.keys(snapshot.val());
       // Not sure why to use keys, can simply forEach over the items:
@@ -144,5 +144,26 @@ export var startToggleCompleted = (id, completed) => {
       // On success, call sync dispatch generically updating
       dispatch(updateTodo(id, updates));
     })
+  };
+};
+
+// Login async action:
+export var startLogin = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signInWithPopup(githubProvider).then(
+      (res) => {
+        console.log('Auth worked:', res);
+      }, (err) => {
+        console.log('Auth failed:', err);
+      });
+  };
+};
+
+// Logout async action:
+export var startLogout = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signOut().then(() => {
+      console.log('Logged out OK.');
+    });
   };
 };

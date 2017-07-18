@@ -10,7 +10,10 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 // var Greeter = require('boilerplate');
 
 // Declare app components here:
-var TodoApp = require('TodoApp');
+import Login from 'Login';
+
+// var TodoApp = require('TodoApp');
+import TodoApp from 'TodoApp';
 // Redux actions
 var actions = require('actions');
 // Redux store
@@ -61,25 +64,15 @@ require('style!css!sass!applicationStyles');
 // which is this app.
 
 ReactDOM.render(
-//  render router components:
-// Route renders the Main component and the Navigation from the root (/)
-// IndexRoute renders the children
-// The Main will always be rendered as it is off root path '/'
-// About will be rendered if the route path contains 'about'
-// Or: if URL=/about will render About
-//  else URL=/ will render Weather
-
-
-// Router history causes the URL to have /#/[link]
-  // <Router history={hashHistory}>
-  //   {/* Main is always rendered as URL starts with root path '/' */}
-  //   <Route path="/" component={Main}>
-  //   {/* Add routes to app components here: */}
-  // </Router>,
-
-  // Render the provider component - now all children will be able to access the store:
+  // Render the provider component - now all children will be able to access the store.
+  // IndexRoute brings up the Login by default #/todos will switch to TodoApp
   <Provider store={store}>
-    <TodoApp/>
+    <Router history={hashHistory}>
+      <Route path="/">
+        <Route path="todos" component={TodoApp}/>
+        <IndexRoute component={Login}/>
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );

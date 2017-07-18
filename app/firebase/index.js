@@ -15,6 +15,9 @@ try {
 
 };
 
+// Export the authentication provider:
+export var githubProvider = new firebase.auth.GithubAuthProvider();
+// The Firebase database reference
 export var firebaseRef = firebase.database().ref();
 // this means any that import this file also get firebase too.
 export default firebase;

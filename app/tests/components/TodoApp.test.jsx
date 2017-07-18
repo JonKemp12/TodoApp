@@ -8,7 +8,8 @@ var TestUtils = require('react-addons-test-utils');
 
 // Load configureStore and TodoList components with the TodoApp
 var configureStore = require('configureStore');
-var TodoApp = require('TodoApp');
+// var TodoApp = require('TodoApp');
+import {TodoApp} from 'TodoApp';
 // var TodoList = require('TodoList');
 // Use import instead
 import TodoList from 'TodoList'
