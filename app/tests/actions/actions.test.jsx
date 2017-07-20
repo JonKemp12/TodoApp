@@ -87,38 +87,6 @@ describe('Actions tests:', () => {
     expect(res).toEqual(testAction);
   });
 
-  // done() is a mocha function called after asyn test completes
-  // If it is called with any args it assume a failure with that arg
-  it('should create todo and dispatch ADD_TODO', (done) => {
-    // Creat an empty mock store
-    const store = creatMockStore({});
-    const todoText = 'Item 1';
-
-    // dispatch it to our store, 'then' wait until it is complete:
-    store.dispatch(actions.startAddTodo(todoText)).then((res) => {
-      // Success here:
-      // Fetch all the actions dispatched to this store.
-      const actions = store.getActions();
-      // Assert that the first action contains a property type: ADD_TODO
-      expect(actions[0]).toInclude({
-        type: 'ADD_TODO'
-      });
-      // Also assert the the first action has a todo with our test text
-      expect(actions[0].todo).toInclude({
-        text: todoText
-      });
-      done();   // Mark the test as done without error.
-    // On failure, catch the error and call done()
-  }).catch(done());
-    /*
-    , (err) => {
-      // On failure, catch the error and call done()
-      // Apparently you can do this with a .then().catch(done())
-      done(err);
-    });
-    */
-  });
-
   it('should create a UPDATE_TODO action', () => {
     var testAction = {
       type: 'UPDATE_TODO',
@@ -149,17 +117,20 @@ describe('Actions tests:', () => {
         completed: false,
         createdAt: 99,
     };
+    var uid;  // Anonymous test user ID
+    var testTodosRef; // Ref to the test todos data.
 
     // Use mocha beforeEach to declare a function to run before each test:
     beforeEach((done) => {
-      // Get a FB ref to the todos list:
-      var testTodosRef = firebaseRef.child('todos');
-
-      // Reset the list:
-      testTodosRef.remove().then(() => {
-        // Once clear has returned, add our test data:
-        // make a ref to the todo:
-        testTodoRef = firebaseRef.child('todos').push();
+      // Sign in anonymously:
+      firebase.auth().signInAnonymously().then((user) => {
+        uid = user.uid;
+        testTodosRef = firebaseRef.child(`users/${uid}/todos`);
+        // Clear the list, return chains the promise on:
+        return testTodosRef.remove();
+      }).then(() => {
+        // Add a todo:
+        testTodoRef = testTodosRef.push();
         // Set the test data and return:
         return testTodoRef.set(testTodo);
       })
@@ -168,16 +139,17 @@ describe('Actions tests:', () => {
       // Catch error and pass them into done.
       .catch(done);
     });
+
     // Use afterEach to declare func to run after each test completes.
     afterEach((done) => {
       // remove the test item:
-      testTodoRef.remove().then(() => done());  // Short form for simple success.
+      testTodosRef.remove().then(() => done());  // Short form for simple success.
     });
 
     // Tests:
     it('should dispatch UPDATE_TODO action and toggle completed flag', (done) => {
-      // Creat an empty mock store
-      const store = creatMockStore({});
+      // Create a mock store with the auth object
+      const store = creatMockStore({auth:{uid}});
       const action = actions.startAddTodo(testTodoRef.key, !testTodo.completed);
 
       store.dispatch(action).then(() => {
@@ -200,8 +172,8 @@ describe('Actions tests:', () => {
     });
 
     it('should dispatch ADD_TODOS action, create single to with correct test data:', (done) => {
-      // Creat an empty mock store
-      const store = creatMockStore({});
+      // Create a mock store with the auth object
+      const store = creatMockStore({auth:{uid}});
       // The action to call:
       const action = actions.startAddTodos();
 
@@ -218,5 +190,38 @@ describe('Actions tests:', () => {
         done();
       }, done());
     });
+
+    // done() is a mocha function called after asyn test completes
+    // If it is called with any args it assume a failure with that arg
+    it('should create todo and dispatch ADD_TODO', (done) => {
+      // Create a mock store with the auth object
+      const store = creatMockStore({auth:{uid}});
+      const todoText = 'Item 1';
+
+      // dispatch it to our store, 'then' wait until it is complete:
+      store.dispatch(actions.startAddTodo(todoText)).then((res) => {
+        // Success here:
+        // Fetch all the actions dispatched to this store.
+        const actions = store.getActions();
+        // Assert that the first action contains a property type: ADD_TODO
+        expect(actions[0]).toInclude({
+          type: 'ADD_TODO'
+        });
+        // Also assert the the first action has a todo with our test text
+        expect(actions[0].todo).toInclude({
+          text: todoText
+        });
+        done();   // Mark the test as done without error.
+      // On failure, catch the error and call done()
+    }).catch(done());
+      /*
+      , (err) => {
+        // On failure, catch the error and call done()
+        // Apparently you can do this with a .then().catch(done())
+        done(err);
+      });
+      */
+    });
+
   });
 });
