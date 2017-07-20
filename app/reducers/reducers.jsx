@@ -2,6 +2,24 @@
 const uuid = require('node-uuid');
 const moment = require('moment');
 
+// Mega challenge: auth reducer handles login and logout
+export var authReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'LOGIN':
+        // Add the uid to auth object
+        return {
+          uid: action.uid
+        };
+      break;
+    case 'LOGOUT':
+      // Clear the auth object.
+       return {};
+      break;
+    default:
+      return state;
+  };
+};
+
 // Returns searchText value
 export var setSearchTextReducer = (state = '', action) => {
   switch (action.type) {

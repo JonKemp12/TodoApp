@@ -14,6 +14,24 @@ var actions = require('actions');
 var creatMockStore = configureMockStore([thunk]);
 
 describe('Actions tests:', () => {
+  // Login:
+  it('should create LOGIN action', () => {
+    var testAction = {
+      type: 'LOGIN',
+      uid: 'testUID'
+    };
+    var res = actions.login('testUID');
+    expect(res).toEqual(testAction);
+  });
+  // Logout:
+  it('should create LOGOUT action', () => {
+    var testAction = {
+      type: 'LOGOUT',
+    };
+    var res = actions.logout();
+    expect(res).toEqual(testAction);
+  });
+
   // search text
   it('should create a searchText action', () => {
     var testAction = {

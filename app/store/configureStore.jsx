@@ -8,7 +8,7 @@ import * as redux from 'redux';
 import thunk from 'redux-thunk';
 
 // Grab the reducers using ES6 destructuring:
-import {setSearchTextReducer, toggleShowCompletedReducer, todosReducer} from 'reducers';
+import {authReducer, setSearchTextReducer, toggleShowCompletedReducer, todosReducer} from 'reducers';
 
 //export a function for setting up the store and returning it to caller:
 // Takes arg to create initialState (if given)
@@ -16,6 +16,7 @@ export var configure = (initialState = {}) => {
   // Tell redux which reducer to use for name handling:
   // Takes the state variable(s) and function(s) as an object.
   var reducer = redux.combineReducers({
+    auth: authReducer,
     searchText: setSearchTextReducer,
     showCompleted: toggleShowCompletedReducer,
     todos: todosReducer,

@@ -43,16 +43,20 @@ store.dispatch(actions.addTodos(initialTodos));
 // Add callback for firebase login, logout:
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    // If the user is set, move to TodoApp page:
+    // If the user is set:
+    // mark logged in:
+    store.dispatch(actions.login(user.uid));
+    // initialise todos from firebase
+    store.dispatch(actions.startAddTodos());
+    // and move to TodoApp page:
     hashHistory.push('/todos');
   } else {
-    // If not set, logged out so move to login page
+    // If not set, logged out so clear login info
+    store.dispatch(actions.logout());
+    // move to login page
     hashHistory.push('/');
   };
 });
-
-// initialise todos from firebase
-store.dispatch(actions.startAddTodos());
 
 
 

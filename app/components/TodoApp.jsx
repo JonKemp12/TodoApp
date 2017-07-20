@@ -16,7 +16,7 @@ import * as actions from 'actions';
 
 
 // Create functional component with state:
-var TodoApp = React.createClass({
+export var TodoApp = React.createClass({
   /* Don't need handlers or state as functionality pushed down to componenets
   ** now they can access the Redux store.
   // Create states:

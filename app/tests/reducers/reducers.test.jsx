@@ -8,6 +8,30 @@ var df = require('deep-freeze-strict');
 var reducers = require('reducers');
 
 describe('Reducers tests:', () => {
+  describe('authReducer:', () => {
+    it('should add UID on login', () => {
+      var testAction = {
+        type: 'LOGIN',
+        uid: 'testUID'
+      };
+      // Freeze the arg objects using df
+      var res = reducers.authReducer(df({}), df(testAction));
+      expect(res.uid).toEqual(testAction.uid);
+    });
+
+    it('should clear UID on logout', () => {
+      var testAction = {
+        type: 'LOGOUT',
+      };
+      var testAuth = {
+        uid: 'testUID'
+      };
+      // Freeze the arg objects using df
+      var res = reducers.authReducer(df(testAuth), df(testAction));
+      expect(res).toEqual({});
+    });
+  });
+
   describe('searchTextReducer:', () => {
     it('should set searchText', () => {
       var testAction = {

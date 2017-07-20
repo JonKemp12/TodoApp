@@ -51,8 +51,10 @@ export var startAddTodo = (text) => {
         createdAt: moment().unix(),
         completedAt: null,
     };
+    // Find the users database:
+    const uid = getState().auth.uid;
     // Create a ref for the todo item and push it on todos table:
-    var todoRef = firebaseRef.child('todos').push(todo);
+    var todoRef = firebaseRef.child(`users/${uid}/todos`).push(todo);
     // Now also add it to the Redux store via dispatch
     // Return the promise??
     return todoRef.then(() => {
@@ -83,8 +85,10 @@ export var startAddTodos = () => {
   // dispatch: the function that will be called after the data is saved
   // getState: the function to call to get the state of a store
   return (dispatch, getState) => {
+    // Find the users database:
+    const uid = getState().auth.uid;
     // Get ref to todos snapshot
-    var todosRef = firebaseRef.child('todos').once('value');
+    var todosRef = firebaseRef.child(`users/${uid}/todos`).once('value');
     // return the promise
     return todosRef.then((snapshot) => {
       // console.log('Got child key: ', snapshot.key, snapshot.val());
@@ -132,7 +136,9 @@ export var updateTodo = (id, updates) => {
 export var startToggleCompleted = (id, completed) => {
   // Return the function to make the asyn calls
   return (dispatch, getState) => {
-    var todoRef = firebaseRef.child(`todos/${id}`); // ('todos/'+id)
+    // Find the users database:
+    const uid = getState().auth.uid;
+    var todoRef = firebaseRef.child(`users/${uid}/todos/${id}`); // ('todos/'+id)
     // properties to be updated:
     var updates = {
       completed,
@@ -147,6 +153,16 @@ export var startToggleCompleted = (id, completed) => {
   };
 };
 
+
+// Mega challenge!
+// Actions for login and logout.
+export var login = (uid) => {
+  return {
+    type: 'LOGIN',
+    uid
+  };
+};
+
 // Login async action:
 export var startLogin = () => {
   return (dispatch, getState) => {
@@ -156,6 +172,12 @@ export var startLogin = () => {
       }, (err) => {
         console.log('Auth failed:', err);
       });
+  };
+};
+
+export var logout = () => {
+  return {
+    type: 'LOGOUT'
   };
 };
 
