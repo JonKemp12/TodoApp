@@ -1,0 +1,173 @@
+
+// Start node:
+node server.js
+
+// install React packages and save as depandancies:
+
+npm install --save react@0.14.7 react-dom@0.14.7
+npm install --save-dev webpack@1.12.13 babel-core@6.5.1 babel-loader@6.2.2 babel-preset-es@6.5.0 babel-preset-react@6.5.0
+npm install --save-dev webpack@1.12.13 babel-core@6.5.1 babel-loader@6.2.2 babel-preset-es2015@6.5.0 babel-preset-react@6.5.0
+npm install --save-dev babel-preset-stage-0
+// Needed this for a webpack issue:
+npm install --save-dev babel-core@6.10.4
+// Needed for router:
+npm install react-router@2.0.0 --save
+
+// Re-install from dependancies:
+npm install
+
+// Build application:
+webpack
+// webpack -w will watch for changes to dependancies and re-build
+// BUT, changing the webpack.config.js requires a restart - sigh!
+// To optimise for production, use:
+setenv NODE_ENV production
+webpack -p
+
+// GIT
+// git --version (is installed on Ubuntu)
+// Recomended book https://git-scm.com/book
+git init
+git status
+git add .
+git config --global user.email "jonkemp12@gmail.com"
+git config --global user.name "Jon Kemp"
+git commit -a -m 'a version message'
+
+
+// GITHUB
+// First need to create SSH key and add that to Github.
+// Set up account on GitHub as JonKemp12@gmail.com
+// Now create public and private key:
+
+// Check if a key exists:
+57	11:18	ll -a ~/.ssh
+// Nope! So create an RSA 4096 key for my email.
+58	11:19	ssh-keygen -t rsa -b 4096 -C 'JonKemp12@gmail.com'
+// Check agent is running:
+60	11:21	bash eval "$(ssh-agent -s)"
+// Files are created:
+61	11:21	ll -a ~/.ssh
+// Add key to keyring:
+62	11:24	ssh-add ~/.ssh/id_rsa
+// Copy the pub key into GitHub new key:
+64	11:25	cat ~/.ssh/id_rsa.pub
+// Check we can connect:
+65	11:27	ssh -T git@github.com
+
+// On GitHub, create new repo and use push method shown:
+67	11:39	git remote add origin https://github.com/JonKemp12/ReactWeather.git
+// Check the origin is there:
+68	11:39	git remote -v
+// Check branch - it is master here:
+69	11:40	git branch
+// Push the committed project up:
+70	11:41	git push -u origin master
+// Now can make changes, commit them in git and use
+git push
+// to push up to the hub.
+
+// GIT Clone:
+// Get the boiler plate:
+git clone git@github.com:JonKemp12/react-boilerplate.git
+// Rename the directory:
+mv react-boilerplate/ ReactTodo
+// cd to it
+cd ReactTodo/
+// Check the origin:
+git remote -v
+// Remove it:
+git remote rm origin
+// Add it back to own repo:
+git remote add origin git@github.com:JonKemp12/TodoApp.git
+git push -u origin master
+
+
+// Created account on heroku.com
+// Follow installer:
+91	12:44	sudo add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
+93	12:45	wget https://cli-assets.heroku.com/apt/release.key
+94	12:45	sudo apt-key add release.key
+95	12:45	rm release.key
+96	12:46	sudo apt-get update
+97	12:46	sudo apt-get install heroku
+99	12:48	rehash
+// login and start CLI
+100	12:49	heroku
+// Check if logged in.
+105	12:52	heroku auth:whoami
+
+// Now can create heroku app and push up.
+// Make changes to server.js and package.json for heroku.
+108	13:08	git commit -a -m 'Prep repo for Heroku'
+// Push 'em to the hub'
+109	13:08	git push
+// Create the app on heroku:
+110	13:09	heroku create
+// See the two remote repos:
+111	13:10	git remote -v
+// Push the app to heroku:
+112	13:12	git push heroku master
+
+heroku open
+// http://agile-eyrie-42952.herokuapp.com/#/?_k=b4gvrt
+
+
+// Installing Foundation for styles etc:
+npm install css-loader@0.23.1 script-loader@0.6.1 style-loader@0.13.0 jquery@2.2.1 foundation-sites@6.2.0 --save-dev
+// In Foundation@6.3.0 the dir structure changed to put css and js in seperate dirs.
+// Use following to fix at this version otherwise code paths will need to be changed:
+npm install foundation-sites@6.2.0 --save-dev --save-exact
+
+
+// Getting stack trace from webpack due to out of data SASS:
+npm upgrade node-sass --save-dev
+
+// Install testing karma, mocha and support:
+npm install karma@0.13.22 karma-chrome-launcher@0.2.2 karma-mocha@0.2.2 karma-mocha-reporter@2.0.0 karma-sourcemap-loader@0.3.7 karma-webpack@1.7.0 mocha@2.4.5 expect@1.14.0 --save-dev
+// Update chrome-launcher (may be needed).
+npm install karma-chrome-launcher --save-dev
+// Run tests:
+npm test
+
+// Add the react test utils too:
+npm install react-addons-test-utils@0.14.7 --save-dev
+
+// Add uuid for unique ids
+npm install node-uuid --save-dev
+
+// Add momentjs.com for timestamps
+npm install moment --save-dev
+
+// Add Redux to install: (latest?)
+npm install redux@3.3.1 --save-dev
+npm install --save-dev redux-thunk
+
+// Add deep freeze for testing pure functions are pure
+npm install deep-freeze-strict --save-dev
+
+// Add react-redux lib to link both
+npm install react-redux@4.4.1 --save-dev
+
+// Install firebase:
+npm install --save firebase@3.0.2
+
+// Did actually install thunk again in last module using (not sure this is needed):
+// Was installed for Learn redux modules
+npm install --save-dev redux-thunk@2.1.0
+
+// Install mock store for testing async actions.
+npm install redux-mock-store@1.0.3 --save-dev
+
+// Install environment variable support@
+npm install --save node-env-file@0.1.8
+
+// Set heroku env vars using dev values:
+heroku config:set API_KEY=AIzaSyBiQeqMxmdh_JSuDb8LAyVaU6GeHS7_J7k
+heroku config:set AUTH_DOMAIN=jons-todo-app-1c065.firebaseapp.com
+heroku config:set DATABASE_URL=https://jons-todo-app-1c065.firebaseio.com
+heroku config:set STORAGE_BUCKET=
+heroku config
+
+
+

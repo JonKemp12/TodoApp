@@ -1,25 +1,24 @@
 // For webpack - import the React libs:
-var React = require('react');
-var ReactDOM = require('react-dom');
+import  React from 'react';
+import  ReactDOM from 'react-dom';
 // The provider allows to store to be provded to the components children:
-var {Provider} = require('react-redux');
+import {Provider} from 'react-redux';
 // Add the router components:
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+import  {hashHistory}from 'react-router';
+// Pull in Firebase:
+import firebase from 'app/firebase/';
+// Pull in our router code:
+import router from 'app/router/';
 
 // Declare the object from its source:
 // var Greeter = require('boilerplate');
 
 // Declare app components here:
-import Login from 'Login';
-
-// var TodoApp = require('TodoApp');
-import TodoApp from 'TodoApp';
 // Redux actions
 var actions = require('actions');
 // Redux store
 var store = require('configureStore').configure();
-// import the API code:
-import TodoAPI from 'app/api/TodoAPI.jsx';
+
 
 // Run firebase test code:
 // import './../playground/firebase/index';
@@ -41,6 +40,17 @@ var initialTodos = TodoAPI.getTodos();
 store.dispatch(actions.addTodos(initialTodos));
 ****/
 
+// Add callback for firebase login, logout:
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    // If the user is set, move to TodoApp page:
+    hashHistory.push('/todos');
+  } else {
+    // If not set, logged out so move to login page
+    hashHistory.push('/');
+  };
+});
+
 // initialise todos from firebase
 store.dispatch(actions.startAddTodos());
 
@@ -60,6 +70,8 @@ $(document).foundation();
 // Load application (sass) CSS (alias to app/styles/app.scss?):
 require('style!css!sass!applicationStyles');
 
+
+
 // render a DOM component, passing the DOM and rhe element
 // which is this app.
 
@@ -67,12 +79,7 @@ ReactDOM.render(
   // Render the provider component - now all children will be able to access the store.
   // IndexRoute brings up the Login by default #/todos will switch to TodoApp
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route path="/">
-        <Route path="todos" component={TodoApp}/>
-        <IndexRoute component={Login}/>
-      </Route>
-    </Router>
+    {router}
   </Provider>,
   document.getElementById('app')
 );
