@@ -110,6 +110,9 @@ export var todosReducer = (state = [], action) => {
       };
     });
       break;
+    case 'LOGOUT':
+        return[];
+      break;
     default:
       return state;
   };

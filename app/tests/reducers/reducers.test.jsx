@@ -128,6 +128,24 @@ describe('Reducers tests:', () => {
       // Assert the text remains the same
       expect(res[0].text).toEqual(testTodos[0].text);
     });
+
+    // Test logout clears Todos array:
+    it('should clear Todos on LOGOUT', () => {
+      var testTodos = [{
+        id: '7',
+        text: 'Test todo 123',
+        completed: true,
+        createdAt: 99,
+        completedAt: 199,
+      }];
+      var testAction = {
+        type: 'LOGOUT',
+      };
+      // Call the reducer with test todos array and action
+      var res = reducers.todosReducer(df(testTodos), df(testAction));
+      // assert array is empty:
+      expect(res.length).toEqual(0);
+    });
 /*
     // Set up test array, run TOGGLE_TODO and check return.
     it('should toggle completed value on TOGGLE_COMPLETED', () => {
