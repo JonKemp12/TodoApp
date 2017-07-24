@@ -1,8 +1,8 @@
 // TodoList container component
-var React = require('react');
+import React from 'react';
 
 // Load Redux-React connect functional
-var {connect} = require('react-redux');
+import {connect} from 'react-redux';
 
 // Require Todo
 // const Todo = require('Todo');
@@ -10,10 +10,10 @@ import Todo from 'Todo';
 // const TodoAPI = require('TodoAPI');
 import TodoAPI from 'TodoAPI';
 
-// Create functional component with state:
-// Export the raw object for testing
-export var TodoList = React.createClass({
-  render: function () {
+// Refaactor as ES6 Class:
+export class TodoList extends React.Component {
+  // Just use inherited constructor.
+  render () {
     // Get the props (connected state):
     var {todos, showCompleted, searchText} = this.props;
     // Function to render the list:
@@ -46,10 +46,9 @@ export var TodoList = React.createClass({
         {renderTodos()}
       </div>
     );
-  },
-});
+  };
+};
 
-// module.exports = TodoList;
 // REDUX: now use connect() to connect require state objects to this components properties
 // Export the default to be picked up by require().
 export default connect(

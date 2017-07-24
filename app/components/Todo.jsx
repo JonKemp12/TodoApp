@@ -1,15 +1,16 @@
 // Todo container component
-var React = require('react');
-const moment = require('moment');
+import React from 'react';
+import moment from 'moment';
 // Load Redux-React connect functional
-var {connect} = require('react-redux');
+import {connect} from 'react-redux';
 // Redux actions
-var actions = require('actions');
+import * as actions from 'actions';
 
 // Create functional component with state:
 // Export the raw version for testing only
-export var Todo = React.createClass({
-  render: function() {
+// Refaactor as ES6 Class:
+export class Todo extends React.Component {
+  render() {
     var {id, text, completed, createdAt, completedAt, dispatch} = this.props;
     // var to change class/style depending on status
     var todoClassName = completed ? 'todo todo-completed' : 'todo'
@@ -42,8 +43,8 @@ export var Todo = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  };
+};
 
 // module.exports = Todo;
 // Connect Todo to store to pickup dispatch Function

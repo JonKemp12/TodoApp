@@ -1,31 +1,17 @@
-// TodoSearch component
-var React = require('react');
-
+// For webpack - import the React libs:
+import React from 'react';
 // Load Redux-React connect functional
-var {connect} = require('react-redux');
-// Redux action generators
-var actions = require('actions');
-
+import {connect} from 'react-redux';
+// Redux actions
+import * as actions from 'actions';
 
 // Create functional component:
 // Has input field for seach text, and function to search as values are entered.
 // Export the raw (unconnected) object for unit testing
-export var TodoSearch = React.createClass({
-  /*
-  handleSearch: function () {
-    var showCompleted = this.refs.showCompleted.checked;
-    var searchText = this.refs.searchText.value;
-    // Get the dispatch from the props.
-    var {dispatch} = this.props;
-    // pass the values up to parent function given in the prop.
-    this.props.onSearch(showCompleted, searchText);
-    // dispatch the action to the store:
-    dispatch(actions.setSearchText(searchText));
-  },
-  */
 
-
-  render: function () {
+// Refaactor as ES6 Class:
+export class TodoSearch extends React.Component {
+  render () {
     // Get the state vars via connected props.
     var {dispatch, showCompleted, searchText} = this.props;
 
@@ -57,8 +43,8 @@ export var TodoSearch = React.createClass({
       </div>
     </div>
     );
-  },
-});
+  };
+};
 
 // module.exports = TodoSearch;
 // Export the connected TodoSearch

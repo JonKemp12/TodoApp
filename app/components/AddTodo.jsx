@@ -1,16 +1,25 @@
 // For webpack - import the React libs:
-var React = require('react');
+import React from 'react';
 // Load Redux-React connect functional
-var {connect} = require('react-redux');
+import {connect} from 'react-redux';
 // Redux actions
-var actions = require('actions');
+import * as actions from 'actions';
 
 // Create a sub-component for our form:
 // User interaction component
 // Takes parent handler function as prop
-export var AddTodo = React.createClass({
+// Refaactor as ES6 Class:
+export class AddTodo extends React.Component {
+  // Override the constructor:
+  constructor (props) {
+    // Call parent constructor:
+    super(props);
+    // Bind the async functions:
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+  };
+
   // Submit func:
-  onFormSubmit: function (e) {
+  onFormSubmit (e) {
     // Prevents to default page handler which would reload
     e.preventDefault();
     // Get the dispatch function from the props
@@ -32,9 +41,10 @@ export var AddTodo = React.createClass({
       // Re-focus back to imput field:
       this.refs.todoText.focus();
     };
-  },
+  };
+
   // Render func:
-  render: function () {
+  render () {
     return (
       <div className="container__footer"> {/*child custom class*/}
       <form ref="form" onSubmit={this.onFormSubmit}>
@@ -43,8 +53,8 @@ export var AddTodo = React.createClass({
       </form>
     </div>
     )
-  }
-});
+  };
+};
 
 // Export the object:
 // module.exports = AddTodo;
